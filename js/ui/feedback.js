@@ -49,7 +49,7 @@ window.RSA = window.RSA || {};
                     <label>Type<select name="type">${TYPES.map((t) => `<option>${U.esc(t)}</option>`).join('')}</select></label>
                     <label>Where in the tool<input name="where" value="${U.esc(view)}" /></label>
                     <label class="span-2">Your feedback<textarea name="message" rows="6" required data-label="Your feedback" placeholder="What did you do, what happened, what did you expect?"></textarea></label>
-                    <label class="span-2">Your name (optional)<input name="name" value="${U.esc(app.user ? app.user.name : '')}" /></label>
+                    <label class="span-2">Your name - role (optional)<input name="name" value="${U.esc(app.user ? `${app.user.name} - ${RSA.Workflow.roleOf(app.user).label}` : '')}" /></label>
                     <label class="check span-2"><input type="checkbox" name="tech" value="1" checked /> Include technical details (browser, version and operating system) to help us reproduce problems</label>
                   </div>
                   <div class="button-row"><button type="button" class="button secondary small" data-fb="copy">Copy the text</button>${to ? '<button type="button" class="button secondary small" data-fb="file">Save as a file instead</button>' : ''}</div>`,
