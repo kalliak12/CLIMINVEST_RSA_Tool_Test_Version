@@ -29,6 +29,14 @@ window.RSA = window.RSA || {};
     const D = {
         manual(a, side) { return ((a.pdm.manual || {})[side]) || {}; },
 
+        /* The source projects to rank for "better match": the list, plus the assessment's own source when the
+           list only has a copy of it under another ID (e.g. added from a JSON file); the copy is then left out. */
+        matchSources(a, list) {
+            const own = this.effective(a, 'source');
+            if (!own || !a.pdm.sourceId || list.some((x) => x.id === a.pdm.sourceId)) return list;
+            return [{ ...own, id: a.pdm.sourceId }, ...list.filter((x) => x.shortName !== own.shortName)];
+        },
+
         effective(a, side) {
             const snap = a.pdm[side];
             if (!snap) return null;
