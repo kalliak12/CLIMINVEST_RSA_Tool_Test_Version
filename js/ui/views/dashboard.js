@@ -100,7 +100,7 @@
               </section>` : '';
 
             const siteEff = RSA.Data.effective(a, 'site');
-            const ranked = siteEff && app.pdmCache.loaded ? RSA.Recommend.Match.rank(siteEff, app.pdmCache.sources, a.pdm.sourceId) : [];
+            const ranked = siteEff && app.pdmCache.loaded ? RSA.Recommend.Match.rank(siteEff, RSA.Data.matchSources(a, app.pdmCache.sources), a.pdm.sourceId) : [];
             const current = ranked.find((r) => r.isCurrent);
             const better = ranked.filter((r) => !r.isCurrent && current && r.overall !== null && r.overall - current.overall >= 3).slice(0, 2);
             const missing = RSA.Data.missing(a).filter((m) => !m.filled);
