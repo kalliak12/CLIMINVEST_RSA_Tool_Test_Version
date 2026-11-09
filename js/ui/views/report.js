@@ -76,7 +76,7 @@
         const src = RSA.Data.effective(a, 'source'); const site = RSA.Data.effective(a, 'site');
         const d = a.decision; const g = calc.guidance;
         const recs = R.Improvement.generate(a, app.catalogue, calc).filter((r) => r.status !== 'Dismissed');
-        const alternatives = site && app.pdmCache.loaded ? R.Match.rank(site, app.pdmCache.sources, a.pdm.sourceId).filter((r) => !r.isCurrent).slice(0, 3) : [];
+        const alternatives = site && app.pdmCache.loaded ? R.Match.rank(site, RSA.Data.matchSources(a, app.pdmCache.sources), a.pdm.sourceId).filter((r) => !r.isCurrent).slice(0, 3) : [];
         const keyEvidence = a.evidence.filter((e) => Number(e.reliability) >= 75 && e.metricIds.length).slice(0, 10);
         const assumptions = calc.metrics.filter((x) => x.st.assumptions && x.st.assumptions.trim());
         const phase = (p) => recs.filter((r) => r.entry.phase === p && (r.status !== 'Proposed' || r.priority === 'High'));
