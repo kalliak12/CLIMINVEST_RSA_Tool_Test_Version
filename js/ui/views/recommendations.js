@@ -54,7 +54,8 @@
         const site = RSA.Data.effective(a, 'site');
         if (!site) return `<section class="panel"><p class="empty-inline">Select a replication site under Projects first.</p></section>`;
         if (!app.pdmCache.loaded) return '<section class="panel"><p class="muted">Loading projects…</p></section>';
-        const ranked = R.Match.rank(site, app.pdmCache.sources, a.pdm.sourceId);
+        const sources = RSA.Data.matchSources(a, app.pdmCache.sources);
+        const ranked = R.Match.rank(site, sources, a.pdm.sourceId);
         const current = ranked.find((r) => r.isCurrent);
         const rowHtml = (r) => {
             const s = r.source; const key = `match-${s.id}`; const open = app.ui.expanded[key];
@@ -148,8 +149,9 @@
 
     function compareDialog(app, candidateId) {
         const a = app.a; const site = RSA.Data.effective(a, 'site');
-        const cand = app.pdmCache.sources.find((s) => s.id === candidateId);
-        const cur = app.pdmCache.sources.find((s) => s.id === a.pdm.sourceId);
+        const list = RSA.Data.matchSources(a, app.pdmCache.sources);
+        const cand = list.find((s) => s.id === candidateId);
+        const cur = list.find((s) => s.id === a.pdm.sourceId);
         if (!cand || !cur) return;
         const x = R.Match.compare(cur, site); const y = R.Match.compare(cand, site);
         C.modal.open({
